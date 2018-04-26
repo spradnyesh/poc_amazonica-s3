@@ -3,11 +3,22 @@
             [amazonica.aws.s3transfer :as s3t])
   (:gen-class))
 
+;; TODO: populate keys from env
 (defonce cred {:access-key ""
                :secret-key ""
-               :endpoint   ""})
+               :endpoint   ""}) ; region, eg "ap-south-1"
 (defonce bucket "")
 (defonce static-root "")
+
+;;;; steps to host static website
+;; - create-bucket
+;; - steps to be done on AWS console
+;;   - properties -> static website hosting -> "use this bucket to host a website ..."
+;;   - upload empty index.html and error.html
+;;   - http://awspolicygen.s3.amazonaws.com/policygen.html (http://g14n.info/2016/04/s3-bucket-public-by-default/)
+;;     - permissions -> bucket policy -> add
+;; - put-object
+;; - url to access object: https://s3.<region>.amazonaws.com/<bucket-name>/<file-name>.<extn>
 
 (defn create-bucket [nm]
   (s3/create-bucket cred nm))
